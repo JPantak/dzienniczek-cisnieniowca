@@ -1,16 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import tkinter as tk
-from tkinter import ttk, Menu
+from tkinter import ttk, Menu, IntVar
 from tkcalendar import Calendar
 from API import *
+import matplotlib.pyplot as plt
 
 def donothing():
    pass
-
-
-
-
 
 # okno?
 root = tk.Tk()
@@ -109,6 +105,24 @@ for widget in search_by_value_frame.winfo_children():
 button_data_entry = tk.Button(search_measure_frame, text="Szukaj")
 button_data_entry.grid(row=0, column=2)
 
+#Plot options
+plot_dp = IntVar()
+plot_sp = IntVar()
+plot_ht = IntVar()
+plot_options = tk.LabelFrame(main_frame, text="Opcje wykresu", padx=10, pady=10)
+plot_options.pack(fill='both')
+checkbox_show_sp = tk.Checkbutton(plot_options, text='Show SP',variable=plot_sp, onvalue=1, offvalue=0)
+checkbox_show_sp.pack()
+checkbox_show_dp = tk.Checkbutton(plot_options, text='Show DP',variable=plot_dp, onvalue=1, offvalue=0)
+checkbox_show_dp.pack()
+checkbox_show_ht = tk.Checkbutton(plot_options, text='Show HT',variable=plot_ht, onvalue=1, offvalue=0)
+checkbox_show_ht.pack()
+
+button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(df,1,1,1))
+button_draw_plot.pack()
+
+
+# pokazywanie wynikow w tym samym oknie
 show_frame = tk.LabelFrame(main_frame, text="Pomiary ciśnienia", padx=10, pady=10)
 show_frame.pack(fill='both',expand="yes")
 show_frame_text = tk.StringVar()
@@ -118,4 +132,6 @@ left.pack()
  
 root.resizable(False, False)
 root.config(menu=menubar)
+
+#start GUI refresh loop
 root.mainloop()

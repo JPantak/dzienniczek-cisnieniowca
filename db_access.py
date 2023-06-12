@@ -63,6 +63,9 @@ class Database:
     def del_entry(self):
         self.df.drop(len(self.df) - 1, inplace=True)
 
+    def get_values(self,column: str):
+        return self.df[column].values.tolist()
+
 
 # main_db = Database("C:/Users/panta/OneDrive/inf/npg/dzienniczek-cisnieniowca/data/test_db.csv")
 # main_db.add_entry("16.05.2023",120,80,60)

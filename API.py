@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 from db_access import *
 from tkinter import filedialog
 import tkinter as tk
@@ -18,6 +20,7 @@ def gui_delete_last_entry(strv):
     global main_db
     main_db.del_entry()
     strv.set(str(main_db))
+    #TODO: zablokowac mozliwosc usuniecia ostatniego wpisu przy pustej bazie danych.
 
 def new_file(strv = None):
     global main_db
@@ -43,4 +46,13 @@ def save_file():
     path = filedialog.asksaveasfile(filetypes=filetypes,defaultextension="*.*")
     main_db.save(path.name)
     
-    
+#draw plot
+def draw_plot(db, draw_sp, draw_dp, draw_ht):
+    plot_x = main_db.get_values('date')
+    plot_y2 = main_db.get_values('dp')
+    plot_y1 = main_db.get_values('sp')
+    fig = plt.figure()
+    ax = fig.subplots()
+    ax.plot(plot_x, plot_y1, color='tab:blue')
+    ax.plot(plot_x, plot_y2, color='tab:red')
+    plt.show()
