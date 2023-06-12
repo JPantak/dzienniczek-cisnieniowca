@@ -3,7 +3,7 @@
 
 import tkinter as tk
 from tkinter import ttk
-
+from API import *
 # okno?
 root = tk.Tk()
 root.title("Dziennik ciśnienia")
@@ -43,7 +43,7 @@ for widget in pressure_input_frame.winfo_children():    # pętla ustawiająca pa
     widget.grid_configure(padx=10, pady=5)              # wszystkich widgetów w pressure_input_frame
 
 # przyciski do zapisu i usuwania
-button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar")
+button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=gui_add_entry(entry_date.get(),int(entry_systolic_pressure.get()),int(entry_diastolic_pressure.get()),int(entry_heart_rate.get())))
 button_data_entry.grid(row=4, column=0, sticky="w"+"e", columnspan=3)
 
 button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar")
