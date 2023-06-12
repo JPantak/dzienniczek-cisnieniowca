@@ -14,10 +14,10 @@ def gui_add_entry (date: str, sp: int, dp: int, ht: int,strv):
     main_db.add_entry(date, sp, dp, ht)
     strv.set(str(main_db))
 
-def gui_delete_last_entry():
-
-    #TODO: dodać usuwanie ostatniego wpisu!!!
-    pass
+def gui_delete_last_entry(strv):
+    global main_db
+    main_db.del_entry()
+    strv.set(str(main_db))
 
 def new_file(strv = None):
     global main_db
