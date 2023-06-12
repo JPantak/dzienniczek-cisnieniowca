@@ -53,7 +53,26 @@ label_heart_rate.grid(row=0, column=2, sticky="w")
 entry_heart_rate = tk.Entry(pressure_input_frame)
 entry_heart_rate.grid(row=1, column=2)
 
-cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'yyyy/mm/dd')
+cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'dd/mm/YYYY')
+time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
+time_input_frame.columnconfigure(0,weight=1)
+time_input_frame.columnconfigure(1,weight=1)
+sec_input_frame = tk.Label(time_input_frame, text="sekundy")
+sec_input_frame.grid(row=0, column=0,)
+sec = tk.Spinbox(time_input_frame, from_=0, to=60)
+sec.grid(row=0,column=1)
+min_input_frame = tk.Label(time_input_frame, text="minuty")
+min_input_frame.grid(row=1,column=0)
+min = tk.Spinbox(time_input_frame, from_=0, to=60)
+min.grid(row=1,column=1)
+
+hour_input_frame = tk.Label(time_input_frame, text="godziny")
+hour_input_frame.grid(row=2,column=0)
+hour = tk.Spinbox(time_input_frame, from_=0, to=24)
+hour.grid(row=2,column=1)
+
+
+
  
 # data label i entry
 # label_date = tk.Label(pressure_input_frame, text="DD-MM-YYYY:")
@@ -65,7 +84,7 @@ for widget in pressure_input_frame.winfo_children():    # pętla ustawiająca pa
     widget.grid_configure(padx=10, pady=5)              # wszystkich widgetów w pressure_input_frame
 
 # przyciski do zapisu i usuwania
-button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(cal.get_date(),entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text))
+button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text))
 button_data_entry.grid(row=4, column=0, sticky="w"+"e", columnspan=3)
 
 button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar",command= lambda: gui_delete_last_entry(show_frame_text))

@@ -27,7 +27,7 @@ class Database:
     def __init__(self,path=None):
         if(path != None):
             self.df = pd.read_csv(path)
-            self.df["date"] = pd.to_datetime(df["date"], dayfirst=True)
+            self.df["date"] = pd.to_datetime(df["date"], dayfirst=True,format='%d/%m/%Y %H:%M:%S')
         else:
             self.df = pd.DataFrame(columns=["date","sp","dp","ht"])
     def __repr__(self) -> str:
@@ -46,7 +46,7 @@ class Database:
 
     def add_entry(self,date: str,sp:int,dp:int,ht:int) -> None:
         self.df.loc[len(self.df)] = [date,sp,dp,ht]
-        self.df["date"] = pd.to_datetime(self.df["date"],dayfirst=True)
+        self.df["date"] = pd.to_datetime(self.df["date"],dayfirst=True,format='%d/%m/%Y %H:%M:%S')
     def sort_by_date(self,asc = True):
         self.df.sort_values(by="date", ascending=asc,inplace=True,ignore_index=True)
     def sort_by_sp(self,asc = True):
