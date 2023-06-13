@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 
 df = pd.read_csv(os.path.join(os.getcwd(), "data/test_db.csv"))
 
@@ -46,7 +47,7 @@ class Database:
 
     def add_entry(self,date: str,sp:int,dp:int,ht:int) -> None:
         self.df.loc[len(self.df)] = [date,sp,dp,ht]
-        self.df["date"] = pd.to_datetime(self.df["date"],dayfirst=True,format='%d/%m/%Y %H:%M:%S')
+        self.df["date"] = pd.to_datetime(self.df["date"],dayfirst=True,format='%Y/%m/%d %H:%M:%S')
     def sort_by_date(self,asc = True):
         self.df.sort_values(by="date", ascending=asc,inplace=True,ignore_index=True)
     def sort_by_sp(self,asc = True):
@@ -68,6 +69,8 @@ class Database:
 
     def filter(self,date = None, sp = None, dp = None, ht = None):
         return self.df.loc[(self.df.date == date) | (self.df.sp == sp) | (self.df.dp == dp) | (self.df.ht == ht)]
+    def to_numpy(self):
+        return self.df.to_numpy()
 
     def get_date(self):
         return self.df['date'].dt.strftime('%d.%.m%Y %H:%M:%S').values.tolist()
@@ -80,7 +83,7 @@ class Database:
 # main_db.sort_by_dp()
 # main_db.show()
 # main_db.edit_entry(0,sp=10)
-# print(main_db)
+# print(main_db.to_numpy())
 
 
 # main_db.save("test.csv")

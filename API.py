@@ -4,21 +4,23 @@ import matplotlib.pyplot as plt
 
 from db_access import *
 from tkinter import filedialog
+from tkinter import ttk
 from datetime import datetime
 import tkinter as tk
 import pandas as pd
-import copy
 #auxiliary functions
 
 # temp_date = ''
 show_db = Database()
 #adding db record from GUI
-def gui_add_entry (date: str, sp: int, dp: int, ht: int,strv):
-    global main_db
+def gui_add_entry (date: str, sp: int, dp: int, ht: int,strv,root):
+    global main_db, show_db
     #check data correctness
     #TODO: dodać sprawdzanie poprawności danych (czy data ma poprawny format, a pozostałe dane mieszczą się w przedziałachn np. 40-210), dodać prompta!!!
-    print(date)
+    
     main_db.add_entry(date, sp, dp, ht)
+    show_db = main_db
+    refresh_trv(root,strv)
     strv.set(str(main_db))
 
 def gui_delete_last_entry(strv):
@@ -27,19 +29,23 @@ def gui_delete_last_entry(strv):
     strv.set(str(main_db))
     #TODO: zablokowac mozliwosc usuniecia ostatniego wpisu przy pustej bazie danych.
 
-def new_file(strv = None):
+def new_file(root,strv = None):
     global main_db
     main_db = Database()
+    refresh_trv(root,strv)
     if(strv != None):
         strv.set(str(main_db))
 
-def select_file(strv):
+def select_file(root,strv):
     global main_db
+    global show_db
     filetypes = [
         ('csv files', '*.csv')
     ]
     path = filedialog.askopenfilename(filetypes=filetypes)
     main_db = Database(path)
+    show_db = main_db
+    refresh_trv(root,strv)
     strv.set(str(main_db))
     
 
@@ -124,7 +130,7 @@ def draw_plot(draw_sp, draw_dp, draw_ht):
 #         widget.grid_configure(padx=10, pady=5)  # wszystkich widgetów w pressure_input_frame
 
 #search in db
-def search_db(type, variable,strv):
+def search_db(root,type, variable,strv):
     global show_db
     print(type,variable)
     if type == "Data":
@@ -135,14 +141,40 @@ def search_db(type, variable,strv):
         show_db = main_db.filter(dp=int(variable))
     elif type == "Tętno":
         show_db = main_db.filter(ht=int(variable))
-
+    refresh_trv(root,strv)
     if strv is not None:
         strv.set(str(show_db))
 
-def show_main_db(strv):
+def show_main_db(root,strv):
     global show_db
     show_db = main_db
+    refresh_trv(root,strv)
     if strv is not None:
         strv.set(str(show_db))
 
+def refresh_trv(root,show_frame_text):
+    global show_db
+    columns = ['date','dp','sp','ht']
+    columns_width = [120,40,40,40] 
+    trv=ttk.Treeview(root,selectmode='browse',height=10,
+        show='headings',columns=columns)
+    trv.grid(row=4,column=4,columnspan=4,padx=10,pady=20)
+    
+    for i, col in enumerate(columns):
+        trv.column(col,width=columns_width[i],anchor='c')
+        trv.heading(col,text=str(col))
+    for dt in show_db.to_numpy():
+        v=[r for r in dt]
+        trv.insert("",'end',iid=v[0],values=v)
+    show_frame = tk.LabelFrame(root, text="Pomiary ciśnienia", padx=10, pady=10)
+    show_frame_text.set(str(show_db))
+    left = tk.Label(show_frame, textvariable=show_frame_text)
+    left.pack()
 
+# def entry_window(root,show_frame_text):
+#     global show_db
+#     top = tk.Toplevel(root)
+#     top.title("Pomiary")
+#     top.geometry("400x400")
+#     refresh_trv(top,show_frame_text)
+    

@@ -6,6 +6,7 @@ from tkcalendar import Calendar
 import API
 from API import *
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def donothing():
@@ -18,9 +19,9 @@ main_db = Database()
 #menu głowne
 menubar = Menu(root)
 filemenu = Menu(menubar, tearoff=0)
-new_file()
-filemenu.add_command(label="New", command=lambda: new_file(show_frame_text))
-filemenu.add_command(label="Open", command=lambda : select_file(show_frame_text))
+# new_file(show_frame)
+filemenu.add_command(label="New", command=lambda: new_file(show_frame,show_frame_text))
+filemenu.add_command(label="Open", command=lambda : select_file(show_frame,show_frame_text))
 filemenu.add_command(label="Save", command=lambda: save_file())
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
@@ -68,7 +69,7 @@ entry_heart_rate.grid(row=1, column=2)
 
 
 #wprowadzanie daty
-cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'dd/mm/YYYY')
+cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'YYYY/mm/dd')
 time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
 time_input_frame.columnconfigure(0,weight=1)
 time_input_frame.columnconfigure(1,weight=1)
@@ -102,7 +103,7 @@ for widget in pressure_input_frame.winfo_children():    # pętla ustawiająca pa
     widget.grid_configure(padx=10, pady=5)              # wszystkich widgetów w pressure_input_frame
 
 # przyciski do zapisu i usuwania
-button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text))
+button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text,show_frame))
 button_data_entry.grid(row=5, column=0, sticky="w"+"e", columnspan=3)
 
 button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar",command= lambda: gui_delete_last_entry(show_frame_text))
@@ -142,10 +143,10 @@ for widget in search_by_value_frame.winfo_children():
 def change_variable():
     if len(entry_type_value.get()) != 0 and (search_type_combobox.get() == "Ciśnienie skurczowe" or search_type_combobox.get() == "Ciśnienie rozkurczowe" or search_type_combobox.get() == "Tętno"):
         search_variable = entry_type_value.get()
-        search_db(search_type_combobox.get(), search_variable, show_frame_text)
+        search_db(show_frame,search_type_combobox.get(), search_variable, show_frame_text)
     elif len(entry_date_2.get()) != 0 and search_type_combobox.get() == "Data":
         search_variable = entry_date_2.get()
-        search_db(search_type_combobox.get(), search_variable, show_frame_text)
+        search_db(show_frame,search_type_combobox.get(), search_variable, show_frame_text)
 
 
 button_data_entry = tk.Button(search_measure_frame, text="Szukaj", command= lambda: change_variable())
@@ -168,14 +169,14 @@ button_draw_plot.pack()
 
 
 # pokazywanie wynikow w tym samym oknie
-button_show_db = tk.Button(main_frame, text="Pokaz zawartość bazy", command=lambda: show_main_db(show_frame_text))
+button_show_db = tk.Button(main_frame, text="Pokaz zawartość bazy", command=lambda: show_main_db(show_frame,show_frame_text))
 button_show_db.pack()
 show_frame = tk.LabelFrame(main_frame, text="Pomiary ciśnienia", padx=10, pady=10)
 show_frame.pack(fill='both',expand="yes")
 show_frame_text = tk.StringVar()
 show_frame_text.set(str(show_db))
-left = tk.Label(show_frame, textvariable=show_frame_text)
-left.pack()
+# left = tk.Label(show_frame, textvariable=show_frame_text)
+# left.pack()
  
 root.resizable(False, False)
 root.config(menu=menubar)
