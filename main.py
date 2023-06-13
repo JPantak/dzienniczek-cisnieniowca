@@ -57,37 +57,37 @@ entry_heart_rate = tk.Entry(pressure_input_frame)
 entry_heart_rate.grid(row=1, column=2)
 
 #wprowadzana data
-date_entry_text = tk.StringVar()
-date_entry_text.set(temp_date)
-label_date = tk.Label(pressure_input_frame, text="Wprowadzona data:")
-label_date.grid(row=0, column=3, sticky="w")
-label_date_entry = tk.Label(pressure_input_frame, textvariable=date_entry_text)
-label_date_entry.grid(row=1, column=3)
+# date_entry_text = tk.StringVar()
+# date_entry_text.set(temp_date)
+# label_date = tk.Label(pressure_input_frame, text="Wprowadzona data:")
+# label_date.grid(row=0, column=3, sticky="w")
+# label_date_entry = tk.Label(pressure_input_frame, textvariable=date_entry_text)
+# label_date_entry.grid(row=1, column=3)
 
 
 
 
 #wprowadzanie daty
-# cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'dd/mm/YYYY')
-# time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
-# time_input_frame.columnconfigure(0,weight=1)
-# time_input_frame.columnconfigure(1,weight=1)
-# sec_input_frame = tk.Label(time_input_frame, text="sekundy")
-# sec_input_frame.grid(row=0, column=0,)
-# sec = tk.Spinbox(time_input_frame, from_=0, to=60)
-# sec.grid(row=0,column=1)
-# min_input_frame = tk.Label(time_input_frame, text="minuty")
-# min_input_frame.grid(row=1,column=0)
-# min = tk.Spinbox(time_input_frame, from_=0, to=60)
-# min.grid(row=1,column=1)
-#
-# hour_input_frame = tk.Label(time_input_frame, text="godziny")
-# hour_input_frame.grid(row=2,column=0)
-# hour = tk.Spinbox(time_input_frame, from_=0, to=24)
-# hour.grid(row=2,column=1)
+cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'dd/mm/YYYY')
+time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
+time_input_frame.columnconfigure(0,weight=1)
+time_input_frame.columnconfigure(1,weight=1)
+sec_input_frame = tk.Label(time_input_frame, text="sekundy")
+sec_input_frame.grid(row=0, column=0,)
+sec = tk.Spinbox(time_input_frame, from_=0, to=60)
+sec.grid(row=0,column=1)
+min_input_frame = tk.Label(time_input_frame, text="minuty")
+min_input_frame.grid(row=1,column=0)
+min = tk.Spinbox(time_input_frame, from_=0, to=60)
+min.grid(row=1,column=1)
 
-button_change_date = tk.Button(main_frame, text="Wprowadz date", command=lambda: enter_date())
-button_change_date.pack()
+hour_input_frame = tk.Label(time_input_frame, text="godziny")
+hour_input_frame.grid(row=2,column=0)
+hour = tk.Spinbox(time_input_frame, from_=0, to=24)
+hour.grid(row=2,column=1)
+
+# button_change_date = tk.Button(main_frame, text="Wprowadz date", command=lambda: enter_date())
+# button_change_date.pack()
 
 
 
