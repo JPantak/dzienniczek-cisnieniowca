@@ -11,7 +11,7 @@ import copy
 #auxiliary functions
 
 # temp_date = ''
-
+show_db = Database()
 #adding db record from GUI
 def gui_add_entry (date: str, sp: int, dp: int, ht: int,strv):
     global main_db
@@ -122,4 +122,27 @@ def draw_plot(draw_sp, draw_dp, draw_ht):
 #
 #     for widget in date_frame.winfo_children():  # pętla ustawiająca padx i pady dla
 #         widget.grid_configure(padx=10, pady=5)  # wszystkich widgetów w pressure_input_frame
+
+#search in db
+def search_db(type, variable,strv):
+    global show_db
+    print(type,variable)
+    if type == "Data":
+        show_db = main_db.filter(date=variable)
+    elif type == "Ciśnienie skurczowe":
+        show_db = main_db.filter(sp=int(variable))
+    elif type == "Ciśnienie rozkurczowe":
+        show_db = main_db.filter(dp=int(variable))
+    elif type == "Tętno":
+        show_db = main_db.filter(ht=int(variable))
+
+    if strv is not None:
+        strv.set(str(show_db))
+
+def show_main_db(strv):
+    global show_db
+    show_db = main_db
+    if strv is not None:
+        strv.set(str(show_db))
+
 

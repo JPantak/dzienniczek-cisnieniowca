@@ -121,7 +121,7 @@ search_by_value_frame.grid(row=0, column=1)
 for widget in search_measure_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
 
-label_date_2 = tk.Label(search_by_date_frame, text="DD-MM-YYYY:")
+label_date_2 = tk.Label(search_by_date_frame, text="YYYY-mm-dd HH:MM:SS :")
 label_date_2.grid(row=0, column=0, sticky="w")
 
 entry_date_2 = tk.Entry(search_by_date_frame)
@@ -130,7 +130,7 @@ entry_date_2.grid(row=1, column=0)
 for widget in search_by_date_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
 
-search_type_combobox = ttk.Combobox(search_by_value_frame, values=[" ", "Ciśnienie skurczowe", "Ciśnienie rozkurczowe", "Tętno"])
+search_type_combobox = ttk.Combobox(search_by_value_frame, values=[" ","Data", "Ciśnienie skurczowe", "Ciśnienie rozkurczowe", "Tętno"])
 search_type_combobox.grid(row=0, column=0)
 
 entry_type_value = tk.Entry(search_by_value_frame)
@@ -139,7 +139,16 @@ entry_type_value.grid(row=1, column=0)
 for widget in search_by_value_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
 
-button_data_entry = tk.Button(search_measure_frame, text="Szukaj")
+def change_variable():
+    if len(entry_type_value.get()) != 0 and (search_type_combobox.get() == "Ciśnienie skurczowe" or search_type_combobox.get() == "Ciśnienie rozkurczowe" or search_type_combobox.get() == "Tętno"):
+        search_variable = entry_type_value.get()
+        search_db(search_type_combobox.get(), search_variable, show_frame_text)
+    elif len(entry_date_2.get()) != 0 and search_type_combobox.get() == "Data":
+        search_variable = entry_date_2.get()
+        search_db(search_type_combobox.get(), search_variable, show_frame_text)
+
+
+button_data_entry = tk.Button(search_measure_frame, text="Szukaj", command= lambda: change_variable())
 button_data_entry.grid(row=0, column=2)
 
 #Plot options
@@ -159,10 +168,12 @@ button_draw_plot.pack()
 
 
 # pokazywanie wynikow w tym samym oknie
+button_show_db = tk.Button(main_frame, text="Pokaz zawartość bazy", command=lambda: show_main_db(show_frame_text))
+button_show_db.pack()
 show_frame = tk.LabelFrame(main_frame, text="Pomiary ciśnienia", padx=10, pady=10)
 show_frame.pack(fill='both',expand="yes")
 show_frame_text = tk.StringVar()
-show_frame_text.set(str(main_db))
+show_frame_text.set(str(show_db))
 left = tk.Label(show_frame, textvariable=show_frame_text)
 left.pack()
  
