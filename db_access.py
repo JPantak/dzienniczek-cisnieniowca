@@ -63,13 +63,16 @@ class Database:
     def del_entry(self):
         self.df.drop(len(self.df) - 1, inplace=True)
 
-    def get_values(self,date = None, sp = None, dp = None, ht = None):
+    def get_values(self,column: str):
+        return self.df[column].values.tolist()
+
+    def filter(self,date = None, sp = None, dp = None, ht = None):
         return self.df.loc[(self.df.date == date) | (self.df.sp == sp) | (self.df.dp == dp) | (self.df.ht == ht)]
 
     def get_date(self):
         return self.df['date'].dt.strftime('%d.%.m%Y %H:%M:%S').values.tolist()
 
-main_db = Database("C:/Users/panta/OneDrive/inf/npg/dzienniczek-cisnieniowca/data/test_db.csv")
+# main_db = Database("C:/Users/panta/OneDrive/inf/npg/dzienniczek-cisnieniowca/data/test_db.csv")
 # main_db.add_entry("16.05.2023",120,80,60)
 # main_db.show()
 # main_db.sort_by_date()
@@ -77,7 +80,7 @@ main_db = Database("C:/Users/panta/OneDrive/inf/npg/dzienniczek-cisnieniowca/dat
 # main_db.sort_by_dp()
 # main_db.show()
 # main_db.edit_entry(0,sp=10)
-print(main_db.get_values(sp=120))
+# print(main_db)
 
 
 # main_db.save("test.csv")
