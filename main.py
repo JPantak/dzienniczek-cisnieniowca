@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 from tkinter import ttk, Menu, IntVar
 from tkcalendar import Calendar
+
+import API
 from API import *
 import matplotlib.pyplot as plt
+
 
 def donothing():
    pass
@@ -53,23 +56,38 @@ label_heart_rate.grid(row=0, column=2, sticky="w")
 entry_heart_rate = tk.Entry(pressure_input_frame)
 entry_heart_rate.grid(row=1, column=2)
 
-cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'dd/mm/YYYY')
-time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
-time_input_frame.columnconfigure(0,weight=1)
-time_input_frame.columnconfigure(1,weight=1)
-sec_input_frame = tk.Label(time_input_frame, text="sekundy")
-sec_input_frame.grid(row=0, column=0,)
-sec = tk.Spinbox(time_input_frame, from_=0, to=60)
-sec.grid(row=0,column=1)
-min_input_frame = tk.Label(time_input_frame, text="minuty")
-min_input_frame.grid(row=1,column=0)
-min = tk.Spinbox(time_input_frame, from_=0, to=60)
-min.grid(row=1,column=1)
+#wprowadzana data
+date_entry_text = tk.StringVar()
+date_entry_text.set(temp_date)
+label_date = tk.Label(pressure_input_frame, text="Wprowadzona data:")
+label_date.grid(row=0, column=3, sticky="w")
+label_date_entry = tk.Label(pressure_input_frame, textvariable=date_entry_text)
+label_date_entry.grid(row=1, column=3)
 
-hour_input_frame = tk.Label(time_input_frame, text="godziny")
-hour_input_frame.grid(row=2,column=0)
-hour = tk.Spinbox(time_input_frame, from_=0, to=24)
-hour.grid(row=2,column=1)
+
+
+
+#wprowadzanie daty
+# cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'dd/mm/YYYY')
+# time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
+# time_input_frame.columnconfigure(0,weight=1)
+# time_input_frame.columnconfigure(1,weight=1)
+# sec_input_frame = tk.Label(time_input_frame, text="sekundy")
+# sec_input_frame.grid(row=0, column=0,)
+# sec = tk.Spinbox(time_input_frame, from_=0, to=60)
+# sec.grid(row=0,column=1)
+# min_input_frame = tk.Label(time_input_frame, text="minuty")
+# min_input_frame.grid(row=1,column=0)
+# min = tk.Spinbox(time_input_frame, from_=0, to=60)
+# min.grid(row=1,column=1)
+#
+# hour_input_frame = tk.Label(time_input_frame, text="godziny")
+# hour_input_frame.grid(row=2,column=0)
+# hour = tk.Spinbox(time_input_frame, from_=0, to=24)
+# hour.grid(row=2,column=1)
+
+button_change_date = tk.Button(main_frame, text="Wprowadz date", command=lambda: enter_date())
+button_change_date.pack()
 
 
 
@@ -85,10 +103,10 @@ for widget in pressure_input_frame.winfo_children():    # pętla ustawiająca pa
 
 # przyciski do zapisu i usuwania
 button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text))
-button_data_entry.grid(row=4, column=0, sticky="w"+"e", columnspan=3)
+button_data_entry.grid(row=5, column=0, sticky="w"+"e", columnspan=3)
 
 button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar",command= lambda: gui_delete_last_entry(show_frame_text))
-button_remove_last_data_entry.grid(row=5, column=0, sticky="w"+"e", columnspan=3, pady=5)
+button_remove_last_data_entry.grid(row=6, column=0, sticky="w"+"e", columnspan=3, pady=5)
 
 # frame do szukania pomiarów
 search_measure_frame = tk.LabelFrame(main_frame, text="Wyszukaj pomiar ciśnienia", padx=10, pady=10)

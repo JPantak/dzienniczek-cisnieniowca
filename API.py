@@ -1,4 +1,7 @@
+import tkinter
+from tkcalendar import Calendar
 import matplotlib.pyplot as plt
+
 from db_access import *
 from tkinter import filedialog
 from datetime import datetime
@@ -6,6 +9,8 @@ import tkinter as tk
 import pandas as pd
 import copy
 #auxiliary functions
+
+temp_date = ''
 
 #adding db record from GUI
 def gui_add_entry (date: str, sp: int, dp: int, ht: int,strv):
@@ -80,3 +85,41 @@ def draw_plot(draw_sp, draw_dp, draw_ht):
         ax.set_xlabel('Data')
         plt.xticks(plot_x, plot_xticks, rotation=45)
         plt.show()
+
+#enter the date
+def enter_date():
+    top = tkinter.Toplevel()
+    top.title("Date enter")
+
+    date_frame = tk.LabelFrame(top, text="Wprowadź datę:", padx=10, pady=10)
+    date_frame.pack()
+    cal = Calendar(date_frame, selectmode='day', date_pattern='dd/mm/YYYY')
+    time_input_frame = tk.LabelFrame(date_frame, text="Czas", padx=10, pady=10)
+    time_input_frame.columnconfigure(0, weight=1)
+    time_input_frame.columnconfigure(1, weight=1)
+    sec_input_frame = tk.Label(time_input_frame, text="sekundy")
+    sec_input_frame.grid(row=0, column=0, )
+    sec = tk.Spinbox(time_input_frame, from_=0, to=60)
+    sec.grid(row=0, column=1)
+    min_input_frame = tk.Label(time_input_frame, text="minuty")
+    min_input_frame.grid(row=1, column=0)
+    min = tk.Spinbox(time_input_frame, from_=0, to=60)
+    min.grid(row=1, column=1)
+
+    hour_input_frame = tk.Label(time_input_frame, text="godziny")
+    hour_input_frame.grid(row=2, column=0)
+    hour = tk.Spinbox(time_input_frame, from_=0, to=24)
+    hour.grid(row=2, column=1)
+
+    def change_date():
+        global temp_date
+        temp_date = f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}'
+        top.destroy()
+
+    button_change_date = tk.Button(date_frame, text="Zapisz date", command=lambda: change_date())
+    button_change_date.grid(row=3)
+
+
+    for widget in date_frame.winfo_children():  # pętla ustawiająca padx i pady dla
+        widget.grid_configure(padx=10, pady=5)  # wszystkich widgetów w pressure_input_frame
+
