@@ -130,14 +130,13 @@ plot_sp = IntVar()
 plot_ht = IntVar()
 plot_options = tk.LabelFrame(main_frame, text="Opcje wykresu", padx=10, pady=10)
 plot_options.pack(fill='both')
-checkbox_show_sp = tk.Checkbutton(plot_options, text='Show SP',variable=plot_sp, onvalue=1, offvalue=0)
+checkbox_show_sp = tk.Checkbutton(plot_options, text='Pokazuj Ciś. Sk.',variable=plot_sp, onvalue=1, offvalue=0)
 checkbox_show_sp.pack()
-checkbox_show_dp = tk.Checkbutton(plot_options, text='Show DP',variable=plot_dp, onvalue=1, offvalue=0)
+checkbox_show_dp = tk.Checkbutton(plot_options, text='Pokazuj Ciś. Roz.',variable=plot_dp, onvalue=1, offvalue=0)
 checkbox_show_dp.pack()
-checkbox_show_ht = tk.Checkbutton(plot_options, text='Show HT',variable=plot_ht, onvalue=1, offvalue=0)
+checkbox_show_ht = tk.Checkbutton(plot_options, text='Pokazuj Tętno',variable=plot_ht, onvalue=1, offvalue=0)
 checkbox_show_ht.pack()
-
-button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(df,1,1,1))
+button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(plot_sp.get(),plot_dp.get(),plot_ht.get()))
 button_draw_plot.pack()
 
 

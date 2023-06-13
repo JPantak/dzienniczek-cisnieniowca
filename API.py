@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-
 from db_access import *
 from tkinter import filedialog
+from datetime import datetime
 import tkinter as tk
 import pandas as pd
 import copy
@@ -47,12 +47,36 @@ def save_file():
     main_db.save(path.name)
     
 #draw plot
-def draw_plot(db, draw_sp, draw_dp, draw_ht):
-    plot_x = main_db.get_values('date')
-    plot_y2 = main_db.get_values('dp')
-    plot_y1 = main_db.get_values('sp')
-    fig = plt.figure()
-    ax = fig.subplots()
-    ax.plot(plot_x, plot_y1, color='tab:blue')
-    ax.plot(plot_x, plot_y2, color='tab:red')
-    plt.show()
+def draw_plot(draw_sp, draw_dp, draw_ht):
+    if draw_sp == 1 or draw_dp == 1 or draw_ht == 1:
+        labels = []
+        ylabel = []
+        time_labels = []
+        plot_x = main_db.get_values('date')
+        plot_y3 = main_db.get_values('ht')
+        plot_y2 = main_db.get_values('dp')
+        plot_y1 = main_db.get_values('sp')
+        plot_xticks = main_db.get_date()
+
+        fig = plt.figure(layout='constrained')
+        ax = fig.subplots()
+        if draw_sp == 1:
+            ax.plot(plot_x, plot_y1, color='tab:blue')
+            labels.append('Ciś. Skurczowe')
+        if draw_dp == 1:
+            ax.plot(plot_x, plot_y2, color='tab:red')
+            labels.append('Ciś. Rozkurczowe')
+
+        if draw_dp == 1 or draw_sp == 1: ylabel.append('Ciśnienie [mmHg]')
+
+        if draw_ht == 1:
+            ax.plot(plot_x, plot_y3, color='tab:green')
+            labels.append('Tętno')
+            ylabel.append('Tętno [BPM]')
+
+
+        ax.legend(labels, title='Zmienne')
+        ax.set_ylabel(ylabel)
+        ax.set_xlabel('Data')
+        plt.xticks(plot_x, plot_xticks, rotation=45)
+        plt.show()

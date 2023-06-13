@@ -66,6 +66,8 @@ class Database:
     def get_values(self,column: str):
         return self.df[column].values.tolist()
 
+    def get_date(self):
+        return self.df['date'].dt.strftime('%d.%.m%Y %H:%M:%S').values.tolist()
 
 # main_db = Database("C:/Users/panta/OneDrive/inf/npg/dzienniczek-cisnieniowca/data/test_db.csv")
 # main_db.add_entry("16.05.2023",120,80,60)
