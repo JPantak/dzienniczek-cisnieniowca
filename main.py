@@ -12,8 +12,10 @@ import numpy as np
 def donothing():
    pass
 
+
 # okno
 root = tk.Tk()
+
 root.title("Dziennik ciśnieniowca")
 main_db = Database()
 # menu głowne
@@ -45,23 +47,37 @@ frame_right.grid(row=0, column=1)
 # frame do wprowadzania pomiarów
 pressure_input_frame = tk.LabelFrame(frame_left, text="Wprowadzanie nowych pomiarów ciśnienia", padx=10, pady=10)
 pressure_input_frame.grid(row=0, column=0)
+
+# dodatkowe frame'y do oryganizacji szyku w pressure_input_frame
+pif_frame_top = tk.Frame(pressure_input_frame, padx=10)
+pif_frame_top.grid(row=0, column=0, columnspan=2)
+
+pif_frame_bottom_left = tk.Frame(pressure_input_frame, padx=10, pady=10)
+pif_frame_bottom_left.grid(row=1, column=0)
+
+pif_frame_bottom_right = tk.Frame(pressure_input_frame, padx=10, pady=10)
+pif_frame_bottom_right.grid(row=1, column=1)
+
 # ciśnienie skurczowe label i entry
-label_systolic_pressure = tk.Label(pressure_input_frame, text="Ciśnienie skurczowe:", anchor="w")
+label_systolic_pressure = tk.Label(pif_frame_top, text="Ciśnienie skurczowe:", anchor="w")
 label_systolic_pressure.grid(row=0, column=0, sticky="w")
-entry_systolic_pressure = tk.Entry(pressure_input_frame)
+entry_systolic_pressure = tk.Entry(pif_frame_top)
 entry_systolic_pressure.grid(row=1, column=0)
 
 # ciśnienie rozkurczowe label i entry
-label_diastolic_pressure = tk.Label(pressure_input_frame, text="Ciśnienie rozkurczowe:", anchor="w")
+label_diastolic_pressure = tk.Label(pif_frame_top, text="Ciśnienie rozkurczowe:", anchor="w")
 label_diastolic_pressure.grid(row=0, column=1, sticky="w")
-entry_diastolic_pressure = tk.Entry(pressure_input_frame)
+entry_diastolic_pressure = tk.Entry(pif_frame_top)
 entry_diastolic_pressure.grid(row=1, column=1)
 
 # tętno label i entry
-label_heart_rate = tk.Label(pressure_input_frame, text="Tętno:")
+label_heart_rate = tk.Label(pif_frame_top, text="Tętno:")
 label_heart_rate.grid(row=0, column=2, sticky="w")
-entry_heart_rate = tk.Entry(pressure_input_frame)
+entry_heart_rate = tk.Entry(pif_frame_top)
 entry_heart_rate.grid(row=1, column=2)
+
+for widget in pif_frame_top.winfo_children():    # pętla ustawiająca padx i pady dla
+    widget.grid_configure(padx=10, pady=5)       # wszystkich widgetów w danym frame
 
 #wprowadzana data
 # date_entry_text = tk.StringVar()
@@ -71,94 +87,92 @@ entry_heart_rate.grid(row=1, column=2)
 # label_date_entry = tk.Label(pressure_input_frame, textvariable=date_entry_text)
 # label_date_entry.grid(row=1, column=3)
 
+# kalendarz do wprowadzania daty
+cal = Calendar(pif_frame_bottom_right, selectmode = 'day',date_pattern = 'YYYY/mm/dd')
+cal.pack()
 
+# frame do wprowadzania czasu
+time_input_frame = tk.LabelFrame(pif_frame_bottom_left, text="Czas", padx=10, pady=10)
+time_input_frame.pack()
 
-
-#wprowadzanie daty
-cal = Calendar(pressure_input_frame, selectmode = 'day',date_pattern = 'YYYY/mm/dd')
-time_input_frame = tk.LabelFrame(pressure_input_frame, text="Czas", padx=10, pady=10)
-time_input_frame.columnconfigure(0,weight=1)
-time_input_frame.columnconfigure(1,weight=1)
+time_input_frame.columnconfigure(0, weight=1)
+time_input_frame.columnconfigure(1, weight=1)
 sec_input_frame = tk.Label(time_input_frame, text="sekundy")
 sec_input_frame.grid(row=0, column=0,)
 sec = tk.Spinbox(time_input_frame, from_=0, to=60)
-sec.grid(row=0,column=1)
+sec.grid(row=0, column=1)
 min_input_frame = tk.Label(time_input_frame, text="minuty")
-min_input_frame.grid(row=1,column=0)
+min_input_frame.grid(row=1, column=0)
 min = tk.Spinbox(time_input_frame, from_=0, to=60)
-min.grid(row=1,column=1)
+min.grid(row=1, column=1)
 
 hour_input_frame = tk.Label(time_input_frame, text="godziny")
-hour_input_frame.grid(row=2,column=0)
+hour_input_frame.grid(row=2, column=0)
 hour = tk.Spinbox(time_input_frame, from_=0, to=24)
-hour.grid(row=2,column=1)
+hour.grid(row=2, column=1)
 
 # button_change_date = tk.Button(main_frame, text="Wprowadz date", command=lambda: enter_date())
 # button_change_date.pack()
 
-
-
- 
 # data label i entry
 # label_date = tk.Label(pressure_input_frame, text="DD-MM-YYYY:")
 # label_date.grid(row=2, column=0, sticky="w")
 # entry_date = tk.Entry(pressure_input_frame)
 # entry_date.grid(row=3, column=0)
 
-for widget in pressure_input_frame.winfo_children():    # pętla ustawiająca padx i pady dla
-    widget.grid_configure(padx=10, pady=5)              # wszystkich widgetów w pressure_input_frame
-
 # przyciski do zapisu i usuwania
 button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text,show_frame))
 button_data_entry.grid(row=5, column=0, sticky="w"+"e", columnspan=3)
 
-button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar",command= lambda: gui_delete_last_entry(show_frame_text))
+button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar", command=lambda: gui_delete_last_entry(show_frame_text))
 button_remove_last_data_entry.grid(row=6, column=0, sticky="w"+"e", columnspan=3, pady=5)
 
 # frame do szukania pomiarów
 search_measure_frame = tk.LabelFrame(frame_left, text="Wyszukaj pomiar ciśnienia", padx=10, pady=10)
 search_measure_frame.grid(row=1, column=0, sticky="w"+"e")
 
-search_by_date_frame = tk.LabelFrame(search_measure_frame, text="Wyszukaj po dacie:")
-search_by_date_frame.grid(row=0, column=0)
+smf_frame = tk.Frame(search_measure_frame)
+smf_frame.pack(fill="x")
 
-search_by_value_frame = tk.LabelFrame(search_measure_frame, text="Wyszukaj po wartości:")
-search_by_value_frame.grid(row=0, column=1)
+search_by_date_frame = tk.LabelFrame(smf_frame, text="Wyszukaj po dacie:")
+search_by_date_frame.pack(fill="both", expand=True, side="left", padx=5, pady=5)
 
-for widget in search_measure_frame.winfo_children():
-    widget.grid_configure(padx=10, pady=5)
+search_by_value_frame = tk.LabelFrame(smf_frame, text="Wyszukaj po wartości:")
+search_by_value_frame.pack(fill="both", expand=True, side="right", padx=5,  pady=5)
+
 
 label_date_2 = tk.Label(search_by_date_frame, text="YYYY-mm-dd HH:MM:SS :")
-label_date_2.grid(row=0, column=0, sticky="w")
+label_date_2.pack()
 
 entry_date_2 = tk.Entry(search_by_date_frame)
-entry_date_2.grid(row=1, column=0)
+entry_date_2.pack()
 
 for widget in search_by_date_frame.winfo_children():
-    widget.grid_configure(padx=10, pady=5)
+    widget.pack_configure(padx=10, pady=5)
 
 search_type_combobox = ttk.Combobox(search_by_value_frame, values=[" ", "Data", "Ciśnienie skurczowe", "Ciśnienie rozkurczowe", "Tętno"])
-search_type_combobox.grid(row=0, column=0)
+search_type_combobox.pack()
 
 entry_type_value = tk.Entry(search_by_value_frame)
-entry_type_value.grid(row=1, column=0)
+entry_type_value.pack()
 
 for widget in search_by_value_frame.winfo_children():
-    widget.grid_configure(padx=10, pady=5)
+    widget.pack_configure(padx=10, pady=5)
+
 
 def change_variable():
     if len(entry_type_value.get()) != 0 and (search_type_combobox.get() == "Ciśnienie skurczowe" or search_type_combobox.get() == "Ciśnienie rozkurczowe" or search_type_combobox.get() == "Tętno"):
         search_variable = entry_type_value.get()
-        search_db(show_frame,search_type_combobox.get(), search_variable, show_frame_text)
+        search_db(show_frame, search_type_combobox.get(), search_variable, show_frame_text)
     elif len(entry_date_2.get()) != 0 and search_type_combobox.get() == "Data":
         search_variable = entry_date_2.get()
-        search_db(show_frame,search_type_combobox.get(), search_variable, show_frame_text)
+        search_db(show_frame, search_type_combobox.get(), search_variable, show_frame_text)
 
 
-button_data_entry = tk.Button(search_measure_frame, text="Szukaj",pady=20, command=lambda: change_variable())
-button_data_entry.grid(row=0, column=2)
+button_data_entry = tk.Button(search_measure_frame, text="Szukaj", command=lambda: change_variable())
+button_data_entry.pack(fill="x")
 
-#Plot options
+# Plot options
 plot_dp = IntVar()
 plot_sp = IntVar()
 plot_ht = IntVar()
@@ -170,7 +184,7 @@ checkbox_show_dp = tk.Checkbutton(plot_options, text='Pokazuj Ciś. Roz.', varia
 checkbox_show_dp.pack(anchor="w")
 checkbox_show_ht = tk.Checkbutton(plot_options, text='Pokazuj Tętno', variable=plot_ht, onvalue=1, offvalue=0)
 checkbox_show_ht.pack(anchor="w")
-button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(plot_sp.get(),plot_dp.get(), plot_ht.get()))
+button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(plot_sp.get(), plot_dp.get(), plot_ht.get()))
 button_draw_plot.pack(fill="x")
 
 
@@ -186,6 +200,9 @@ show_frame_text.set(str(show_db))
  
 root.resizable(False, False)
 root.config(menu=menubar)
+
+# otwieranie okna na środku ekranu
+root.eval('tk::PlaceWindow . center')
 
 #start GUI refresh loop
 root.mainloop()
