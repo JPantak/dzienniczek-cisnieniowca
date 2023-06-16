@@ -22,8 +22,8 @@ main_db = Database()
 menubar = Menu(root)
 filemenu = Menu(menubar, tearoff=0)
 # new_file(show_frame)
-filemenu.add_command(label="New", command=lambda: new_file(show_frame,show_frame_text))
-filemenu.add_command(label="Open", command=lambda : select_file(show_frame,show_frame_text))
+filemenu.add_command(label="New", command=lambda: new_file(show_frame, show_frame_text))
+filemenu.add_command(label="Open", command=lambda: select_file(show_frame, show_frame_text))
 filemenu.add_command(label="Save", command=lambda: save_file())
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
@@ -88,7 +88,7 @@ for widget in pif_frame_top.winfo_children():    # pętla ustawiająca padx i pa
 # label_date_entry.grid(row=1, column=3)
 
 # kalendarz do wprowadzania daty
-cal = Calendar(pif_frame_bottom_right, selectmode = 'day',date_pattern = 'YYYY/mm/dd')
+cal = Calendar(pif_frame_bottom_right, selectmode='day', date_pattern='YYYY/mm/dd')
 cal.pack()
 
 # frame do wprowadzania czasu

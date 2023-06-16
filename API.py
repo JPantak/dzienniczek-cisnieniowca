@@ -12,16 +12,26 @@ import pandas as pd
 
 # temp_date = ''
 show_db = Database()
-#adding db record from GUI
-def gui_add_entry (date: str, sp: int, dp: int, ht: int,strv,root):
+# adding db record from GUI
+
+
+def gui_add_entry(date: str, sp: int, dp: int, ht: int, strv, root):
     global main_db, show_db
-    #check data correctness
+    # check data correctness
     #TODO: dodać sprawdzanie poprawności danych (czy data ma poprawny format, a pozostałe dane mieszczą się w przedziałachn np. 40-210), dodać prompta!!!
-    
-    main_db.add_entry(date, sp, dp, ht)
-    show_db = main_db
-    refresh_trv(root,strv)
-    strv.set(str(main_db))
+    if sp is int and dp is int and ht is int:
+        main_db.add_entry(date, sp, dp, ht)
+        show_db = main_db
+        refresh_trv(root, strv)
+        strv.set(str(main_db))
+    else:
+        print("Błąd wprowadzanych danych")
+
+    # main_db.add_entry(date, sp, dp, ht)
+    # show_db = main_db
+    # refresh_trv(root,strv)
+    # strv.set(str(main_db))
+
 
 def gui_delete_last_entry(strv):
     global main_db
