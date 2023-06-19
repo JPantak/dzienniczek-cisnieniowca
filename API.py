@@ -19,7 +19,7 @@ def gui_add_entry(date: str, sp: int, dp: int, ht: int, strv, root):
     global main_db, show_db
     # check data correctness
     #TODO: dodać sprawdzanie poprawności danych (czy data ma poprawny format, a pozostałe dane mieszczą się w przedziałachn np. 40-210), dodać prompta!!!
-    if sp is int and dp is int and ht is int:
+    if 40 < sp < 210 and 40 < dp < 210 and 40 < ht < 210:
         main_db.add_entry(date, sp, dp, ht)
         show_db = main_db
         refresh_trv(root, strv)
@@ -160,7 +160,7 @@ def search_db(root, type, variable, strv):
         strv.set(str(show_db))
 
 
-def show_main_db(root,strv):
+def show_main_db(root, strv):
     global show_db
     show_db = main_db
     refresh_trv(root,strv)

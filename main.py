@@ -123,9 +123,9 @@ hour.grid(row=2, column=1)
 # przyciski do zapisu i usuwania
 button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar",
                               command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',
-                                                            entry_systolic_pressure.get(),
-                                                            entry_diastolic_pressure.get(),
-                                                            entry_heart_rate.get(), show_frame_text, show_frame))
+                                                            int(entry_systolic_pressure.get()),
+                                                            int(entry_diastolic_pressure.get()),
+                                                            int(entry_heart_rate.get()), show_frame_text, show_frame))
 button_data_entry.grid(row=5, column=0, sticky="w"+"e", columnspan=3)
 
 button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar",
