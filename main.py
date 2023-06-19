@@ -199,8 +199,8 @@ button_draw_plot.pack(fill="x")
 
 
 # pokazywanie wynikow w tym samym oknie
-button_show_db = tk.Button(frame_right, text="Pokaz zawartość bazy", command=lambda: show_main_db(show_frame,
-                                                                                                  show_frame_text))
+button_show_db = tk.Button(frame_right, text="Pokaż całą zawartość bazy", command=lambda: show_main_db(show_frame,
+                                                                                                       show_frame_text))
 button_show_db.pack()
 show_frame = tk.LabelFrame(frame_right, text="Pomiary ciśnienia", padx=10, pady=10)
 show_frame.pack()

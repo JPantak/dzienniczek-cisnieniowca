@@ -18,7 +18,8 @@ show_db = Database()
 def gui_add_entry(date: str, sp: int, dp: int, ht: int, strv, root):
     global main_db, show_db
     # check data correctness
-    #TODO: dodać sprawdzanie poprawności danych (czy data ma poprawny format, a pozostałe dane mieszczą się w przedziałachn np. 40-210), dodać prompta!!!
+    #TODO: dodać sprawdzanie poprawności danych (czy data ma poprawny format,
+    # a pozostałe dane mieszczą się w przedziałach np. 40-210), dodać prompta!!!
     if 40 < sp < 210 and 40 < dp < 210 and 40 < ht < 210:
         main_db.add_entry(date, sp, dp, ht)
         show_db = main_db
@@ -155,7 +156,7 @@ def search_db(root, type, variable, strv):
         show_db = main_db.filter(dp=int(variable))
     elif type == "Tętno":
         show_db = main_db.filter(ht=int(variable))
-    refresh_trv(root,strv)
+    refresh_trv(root, strv)
     if strv is not None:
         strv.set(str(show_db))
 

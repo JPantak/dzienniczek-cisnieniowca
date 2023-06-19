@@ -13,7 +13,8 @@ class Database:
 
     Attributes
     ===========
-    path - path to csv file(optional) - if no path given, the class will create an empty dataframe with necessary columns
+    path - path to csv file(optional) - if no path given, the class will
+    create an empty dataframe with necessary columns
     
     Methods
     ===========
@@ -76,7 +77,7 @@ class Database:
     def get_values(self,column: str):
         return self.df[column].values.tolist()
 
-    def filter(self,date = None, sp = None, dp = None, ht = None):
+    def filter(self, date=None, sp=None, dp=None, ht=None):
         return self.df.loc[(self.df.date == date) | (self.df.sp == sp) | (self.df.dp == dp) | (self.df.ht == ht)]
 
     def to_numpy(self):
