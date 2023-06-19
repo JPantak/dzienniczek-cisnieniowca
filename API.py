@@ -180,7 +180,7 @@ def refresh_trv(root, show_frame_text):
         trv.column(col, width=columns_width[i], anchor='c')
         trv.heading(col, text=str(col))
     for dt in show_db.to_numpy():
-        v=[r for r in dt]
+        v = [r for r in dt]
         trv.insert("", 'end', iid=v[0],values=v)
     show_frame = tk.LabelFrame(root, text="Pomiary ciśnienia", padx=10, pady=10)
     show_frame_text.set(str(show_db))
@@ -193,4 +193,3 @@ def refresh_trv(root, show_frame_text):
 #     top.title("Pomiary")
 #     top.geometry("400x400")
 #     refresh_trv(top,show_frame_text)
-    
