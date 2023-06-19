@@ -25,39 +25,48 @@ class Database:
     save(name,dir) - saves dataframe to csv file, dir - optional argument
 
     """
-    def __init__(self,path=None):
-        if(path != None):
+    def __init__(self, path=None):
+        if path is not None:
             self.df = pd.read_csv(path)
             self.df["date"] = pd.to_datetime(df["date"], dayfirst=True,format='%d/%m/%Y %H:%M:%S')
         else:
-            self.df = pd.DataFrame(columns=["date","sp","dp","ht"])
+            self.df = pd.DataFrame(columns=["date", "sp", "dp", "ht"])
+
     def __repr__(self) -> str:
         return self.df.to_string()
-    def get_entry(self, n):
-        return self.df.loc[n,:]
-    def edit_entry(self,n,date:str=None,sp:int =None ,dp:int =None,ht:int =None):
-            if(date != None):
-                self.df.at[n,"date"] = date
-            if(sp != None):
-                self.df.at[n,"sp"] = sp
-            if(dp != None):
-                self.df.at[n,"dp"] = dp
-            if(ht != None):
-                self.df.at[n,"ht"] = ht
 
-    def add_entry(self,date: str,sp:int,dp:int,ht:int) -> None:
-        self.df.loc[len(self.df)] = [date,sp,dp,ht]
-        self.df["date"] = pd.to_datetime(self.df["date"],dayfirst=True,format='%Y/%m/%d %H:%M:%S')
-    def sort_by_date(self,asc = True):
-        self.df.sort_values(by="date", ascending=asc,inplace=True,ignore_index=True)
-    def sort_by_sp(self,asc = True):
-        self.df.sort_values(by="sp", ascending=asc,inplace=True,ignore_index=True)
-    def sort_by_dp(self,asc = True):
-        self.df.sort_values(by="dp", ascending=asc,inplace=True,ignore_index=True)
-    def sort_by_ht(self,asc = True):
-        self.df.sort_values(by="ht", ascending=asc,inplace=True,ignore_index=True)
-    def save(self,path):
-        self.df.to_csv(path,index=False)
+    def get_entry(self, n):
+        return self.df.loc[n, :]
+
+    def edit_entry(self, n, date: str = None, sp: int = None , dp: int = None, ht: int = None):
+            if date is not None:
+                self.df.at[n, "date"] = date
+            if sp is not None:
+                self.df.at[n, "sp"] = sp
+            if dp is not None:
+                self.df.at[n, "dp"] = dp
+            if ht is not None:
+                self.df.at[n, "ht"] = ht
+
+    def add_entry(self, date: str, sp: int, dp: int, ht: int) -> None:
+        self.df.loc[len(self.df)] = [date, sp, dp, ht]
+        self.df["date"] = pd.to_datetime(self.df["date"],dayfirst=True, format='%Y/%m/%d %H:%M:%S')
+
+    def sort_by_date(self, asc=True):
+        self.df.sort_values(by="date", ascending=asc, inplace=True, ignore_index=True)
+
+    def sort_by_sp(self, asc=True):
+        self.df.sort_values(by="sp", ascending=asc, inplace=True, ignore_index=True)
+
+    def sort_by_dp(self, asc=True):
+        self.df.sort_values(by="dp", ascending=asc, inplace=True, ignore_index=True)
+
+    def sort_by_ht(self, asc=True):
+        self.df.sort_values(by="ht", ascending=asc, inplace=True, ignore_index=True)
+
+    def save(self, path):
+        self.df.to_csv(path, index=False)
+
     def print(self):
         print(self.df)
 
@@ -69,6 +78,7 @@ class Database:
 
     def filter(self,date = None, sp = None, dp = None, ht = None):
         return self.df.loc[(self.df.date == date) | (self.df.sp == sp) | (self.df.dp == dp) | (self.df.ht == ht)]
+
     def to_numpy(self):
         return self.df.to_numpy()
 

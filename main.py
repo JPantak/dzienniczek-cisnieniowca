@@ -15,9 +15,10 @@ def donothing():
 
 # okno
 root = tk.Tk()
-
 root.title("Dziennik ciśnieniowca")
+
 main_db = Database()
+
 # menu głowne
 menubar = Menu(root)
 filemenu = Menu(menubar, tearoff=0)
@@ -28,7 +29,6 @@ filemenu.add_command(label="Save", command=lambda: save_file())
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
 menubar.add_cascade(label="File", menu=filemenu)
-
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="Help Index", command=donothing)
 helpmenu.add_command(label="About...", command=donothing)
@@ -121,10 +121,15 @@ hour.grid(row=2, column=1)
 # entry_date.grid(row=3, column=0)
 
 # przyciski do zapisu i usuwania
-button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar", command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',entry_systolic_pressure.get(),entry_diastolic_pressure.get(),entry_heart_rate.get(),show_frame_text,show_frame))
+button_data_entry = tk.Button(pressure_input_frame, text="Zapisz pomiar",
+                              command=lambda: gui_add_entry(f'{cal.get_date()} {hour.get()}:{min.get()}:{sec.get()}',
+                                                            entry_systolic_pressure.get(),
+                                                            entry_diastolic_pressure.get(),
+                                                            entry_heart_rate.get(), show_frame_text, show_frame))
 button_data_entry.grid(row=5, column=0, sticky="w"+"e", columnspan=3)
 
-button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar", command=lambda: gui_delete_last_entry(show_frame_text))
+button_remove_last_data_entry = tk.Button(pressure_input_frame, text="Usuń wcześniej dodany pomiar",
+                                          command=lambda: gui_delete_last_entry(show_frame_text))
 button_remove_last_data_entry.grid(row=6, column=0, sticky="w"+"e", columnspan=3, pady=5)
 
 # frame do szukania pomiarów
@@ -150,7 +155,8 @@ entry_date_2.pack()
 for widget in search_by_date_frame.winfo_children():
     widget.pack_configure(padx=10, pady=5)
 
-search_type_combobox = ttk.Combobox(search_by_value_frame, values=[" ", "Data", "Ciśnienie skurczowe", "Ciśnienie rozkurczowe", "Tętno"])
+search_type_combobox = ttk.Combobox(search_by_value_frame, values=[" ", "Data", "Ciśnienie skurczowe",
+                                                                   "Ciśnienie rozkurczowe", "Tętno"])
 search_type_combobox.pack()
 
 entry_type_value = tk.Entry(search_by_value_frame)
@@ -161,7 +167,9 @@ for widget in search_by_value_frame.winfo_children():
 
 
 def change_variable():
-    if len(entry_type_value.get()) != 0 and (search_type_combobox.get() == "Ciśnienie skurczowe" or search_type_combobox.get() == "Ciśnienie rozkurczowe" or search_type_combobox.get() == "Tętno"):
+    if len(entry_type_value.get()) != 0 and (search_type_combobox.get() == "Ciśnienie skurczowe" or
+                                             search_type_combobox.get() == "Ciśnienie rozkurczowe" or
+                                             search_type_combobox.get() == "Tętno"):
         search_variable = entry_type_value.get()
         search_db(show_frame, search_type_combobox.get(), search_variable, show_frame_text)
     elif len(entry_date_2.get()) != 0 and search_type_combobox.get() == "Data":
@@ -184,12 +192,15 @@ checkbox_show_dp = tk.Checkbutton(plot_options, text='Pokazuj Ciś. Roz.', varia
 checkbox_show_dp.pack(anchor="w")
 checkbox_show_ht = tk.Checkbutton(plot_options, text='Pokazuj Tętno', variable=plot_ht, onvalue=1, offvalue=0)
 checkbox_show_ht.pack(anchor="w")
-button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(plot_sp.get(), plot_dp.get(), plot_ht.get()))
+button_draw_plot = tk.Button(plot_options, text="Rysuj wykres", command=lambda: draw_plot(plot_sp.get(),
+                                                                                          plot_dp.get(),
+                                                                                          plot_ht.get()))
 button_draw_plot.pack(fill="x")
 
 
 # pokazywanie wynikow w tym samym oknie
-button_show_db = tk.Button(frame_right, text="Pokaz zawartość bazy", command=lambda: show_main_db(show_frame, show_frame_text))
+button_show_db = tk.Button(frame_right, text="Pokaz zawartość bazy", command=lambda: show_main_db(show_frame,
+                                                                                                  show_frame_text))
 button_show_db.pack()
 show_frame = tk.LabelFrame(frame_right, text="Pomiary ciśnienia", padx=10, pady=10)
 show_frame.pack()

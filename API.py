@@ -39,12 +39,14 @@ def gui_delete_last_entry(strv):
     strv.set(str(main_db))
     #TODO: zablokowac mozliwosc usuniecia ostatniego wpisu przy pustej bazie danych.
 
-def new_file(root,strv = None):
+
+def new_file(root, strv=None):
     global main_db
     main_db = Database()
-    refresh_trv(root,strv)
-    if(strv != None):
+    refresh_trv(root, strv)
+    if strv is not None:
         strv.set(str(main_db))
+
 
 def select_file(root,strv):
     global main_db
@@ -55,7 +57,7 @@ def select_file(root,strv):
     path = filedialog.askopenfilename(filetypes=filetypes)
     main_db = Database(path)
     show_db = main_db
-    refresh_trv(root,strv)
+    refresh_trv(root, strv)
     strv.set(str(main_db))
     
 
@@ -67,7 +69,9 @@ def save_file():
     path = filedialog.asksaveasfile(filetypes=filetypes,defaultextension="*.*")
     main_db.save(path.name)
     
-#draw plot
+# draw plot
+
+
 def draw_plot(draw_sp, draw_dp, draw_ht):
     if draw_sp == 1 or draw_dp == 1 or draw_ht == 1:
         labels = []
@@ -95,14 +99,14 @@ def draw_plot(draw_sp, draw_dp, draw_ht):
             labels.append('Tętno')
             ylabel.append('Tętno [BPM]')
 
-
         ax.legend(labels, title='Zmienne')
         ax.set_ylabel(ylabel)
         ax.set_xlabel('Data')
         plt.xticks(plot_x, plot_xticks, rotation=45)
         plt.show()
 
-#enter the date
+
+# enter the date
 # def enter_date():
 #     top = tkinter.Toplevel()
 #     top.title("Date enter")
@@ -139,10 +143,10 @@ def draw_plot(draw_sp, draw_dp, draw_ht):
 #     for widget in date_frame.winfo_children():  # pętla ustawiająca padx i pady dla
 #         widget.grid_configure(padx=10, pady=5)  # wszystkich widgetów w pressure_input_frame
 
-#search in db
-def search_db(root,type, variable,strv):
+# search in db
+def search_db(root, type, variable, strv):
     global show_db
-    print(type,variable)
+    print(type, variable)
     if type == "Data":
         show_db = main_db.filter(date=variable)
     elif type == "Ciśnienie skurczowe":
@@ -155,6 +159,7 @@ def search_db(root,type, variable,strv):
     if strv is not None:
         strv.set(str(show_db))
 
+
 def show_main_db(root,strv):
     global show_db
     show_db = main_db
@@ -162,20 +167,21 @@ def show_main_db(root,strv):
     if strv is not None:
         strv.set(str(show_db))
 
-def refresh_trv(root,show_frame_text):
+
+def refresh_trv(root, show_frame_text):
     global show_db
-    columns = ['date','dp','sp','ht']
-    columns_width = [120,40,40,40] 
-    trv=ttk.Treeview(root,selectmode='browse',height=10,
-        show='headings',columns=columns)
-    trv.grid(row=4,column=4,columnspan=4,padx=10,pady=20)
+    columns = ['date', 'dp', 'sp', 'ht']
+    columns_width = [120, 40, 40, 40]
+    trv = ttk.Treeview(root, selectmode='browse', height=10,
+                       show='headings', columns=columns)
+    trv.grid(row=4, column=4, columnspan=4, padx=10, pady=20)
     
     for i, col in enumerate(columns):
-        trv.column(col,width=columns_width[i],anchor='c')
-        trv.heading(col,text=str(col))
+        trv.column(col, width=columns_width[i], anchor='c')
+        trv.heading(col, text=str(col))
     for dt in show_db.to_numpy():
         v=[r for r in dt]
-        trv.insert("",'end',iid=v[0],values=v)
+        trv.insert("", 'end', iid=v[0],values=v)
     show_frame = tk.LabelFrame(root, text="Pomiary ciśnienia", padx=10, pady=10)
     show_frame_text.set(str(show_db))
     left = tk.Label(show_frame, textvariable=show_frame_text)
