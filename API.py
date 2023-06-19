@@ -8,7 +8,7 @@ from tkinter import ttk
 from datetime import datetime
 import tkinter as tk
 import pandas as pd
-#auxiliary functions
+# auxiliary functions
 
 # temp_date = ''
 show_db = Database()

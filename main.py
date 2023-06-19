@@ -215,5 +215,5 @@ root.config(menu=menubar)
 # otwieranie okna na środku ekranu
 root.eval('tk::PlaceWindow . center')
 
-#start GUI refresh loop
+# start GUI refresh loop
 root.mainloop()
