@@ -6,6 +6,7 @@ df = pd.read_csv(os.path.join(os.getcwd(), "data/test_db.csv"))
 
 
 class Database:
+  
     """
     A class to represent the dataframe
 
@@ -13,19 +14,26 @@ class Database:
 
     Attributes
     ===========
-    path - path to csv file(optional) - if no path given, the class will
-    create an empty dataframe with necessary columns
+    path - path to csv file(optional) - if no path given, the class will create an empty dataframe with necessary columns
     
     Methods
     ===========
     get_entry(n) - returns the nth row of the dataframe
     add_entry(date,sp,dp,ht) - adds an entry with given arguments
     edit_entry(n,date,sp,dp,ht) - edits nth entry, all arguments beside n are optional 
+    del_entry(self) - deletes last entry
+    get_values(self,column) - returns values of a specific column
+    filter(self,date,sp,dp,ht) - returns a dataframe with filtered data
+    to_numpy() - returns the dataframe in a numpy array
+    get_date() - returns a list of all dates in the dataframe
+
     show() - prints out the dataframa associated with the class
     sort_by - sorts the dataframe by specific criteria, ascending - optional argument
     save(name,dir) - saves dataframe to csv file, dir - optional argument
 
     """
+
+
     def __init__(self, path=None):
         if path is not None:
             self.df = pd.read_csv(path)
@@ -86,15 +94,3 @@ class Database:
     def get_date(self):
         return self.df['date'].dt.strftime('%d.%.m%Y %H:%M:%S').values.tolist()
 
-# main_db = Database("C:/Users/panta/OneDrive/inf/npg/dzienniczek-cisnieniowca/data/test_db.csv")
-# main_db.add_entry("16.05.2023",120,80,60)
-# main_db.show()
-# main_db.sort_by_date()
-# main_db.show()
-# main_db.sort_by_dp()
-# main_db.show()
-# main_db.edit_entry(0,sp=10)
-# print(main_db.to_numpy())
-
-
-# main_db.save("test.csv")
