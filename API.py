@@ -18,8 +18,6 @@ show_db = Database()
 def gui_add_entry(date: str, sp: int, dp: int, ht: int, strv, root):
     global main_db, show_db
     # check data correctness
-    #TODO: dodać sprawdzanie poprawności danych (czy data ma poprawny format,
-    # a pozostałe dane mieszczą się w przedziałach np. 40-210), dodać prompta!!!
     if 40 < sp < 210 and 40 < dp < 210 and 40 < ht < 210:
         main_db.add_entry(date, sp, dp, ht)
         show_db = main_db
@@ -38,7 +36,6 @@ def gui_delete_last_entry(strv):
     global main_db
     main_db.del_entry()
     strv.set(str(main_db))
-    #TODO: zablokowac mozliwosc usuniecia ostatniego wpisu przy pustej bazie danych.
 
 
 def new_file(root, strv=None):
